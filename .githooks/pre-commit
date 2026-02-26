@@ -1,0 +1,23 @@
+#!/bin/bash
+
+STAGED_TS_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+if [ -z "$STAGED_TS_FILES" ]; then
+  exit 0
+fi
+
+echo "Check with oxfmt..."
+echo "$STAGED_TS_FILES" | xargs bun oxfmt --check
+FMT_STATUS=$?
+
+echo "Check with oxlint..."
+echo "$STAGED_TS_FILES" | xargs bun oxlint
+LINT_STATUS=$?
+
+if [ $FMT_STATUS -ne 0 ] || [ $LINT_STATUS -ne 0 ]; then
+  echo "❌ Check errors"
+  exit 1
+fi
+
+echo "✅ Success"
+exit 0

@@ -1,0 +1,55 @@
+name: Publish to NPM
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (must match package.json)"
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for NPM provenance
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun and dependencies
+        uses: ./.github/actions/setup
+
+      - name: Verify version match
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if [ "$PACKAGE_VERSION" != "${{ inputs.version }}" ]; then
+            echo 'Error: package.json version ($PACKAGE_VERSION) does not match input version (${{ inputs.version }})'
+            exit 1
+          fi
+          echo "Version verified: $PACKAGE_VERSION"
+
+      - name: Build package
+        run: bun run build
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo 'Error: dist directory not found after build'
+            exit 1
+          fi
+          echo 'Build output verified'
+          ls -la dist/
+
+      - name: Setup Node.js for NPM
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Publish to NPM
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

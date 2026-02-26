@@ -30,6 +30,7 @@
     }
   },
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks",
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
