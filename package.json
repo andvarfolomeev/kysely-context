@@ -2,13 +2,26 @@
   "name": "kysely-context",
   "version": "1.0.0",
   "description": "Context manager for Kysely using AsyncLocalStorage",
-  "author": "Andrey Varfolomeev",
+  "keywords": [
+    "async-local-storage",
+    "context",
+    "kysely",
+    "transaction"
+  ],
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/andvarfolomeev/kysely-context" },
-  "keywords": ["kysely", "transaction", "context", "async-local-storage"],
+  "author": "Andrey Varfolomeev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andvarfolomeev/kysely-context"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "type": "module",
-  "module": "src/index.ts",
   "main": "./dist/index.js",
+  "module": "src/index.ts",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -16,13 +29,12 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md", "LICENSE"],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "bun test",
     "fmt": "bun oxfmt",
     "fmt:check": "bun oxfmt --check",
-    "lint": "bun lint"
+    "lint": "bun oxlint"
   },
   "devDependencies": {
     "@types/bun": "latest",

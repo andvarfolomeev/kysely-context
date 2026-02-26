@@ -254,9 +254,12 @@ describe("makeKyselyContext", () => {
 
     const ctx = makeKyselyContext(mockRoot);
 
-    await ctx.inTx(async () => {
-      return "done";
-    }, { accessMode: "read only" });
+    await ctx.inTx(
+      async () => {
+        return "done";
+      },
+      { accessMode: "read only" },
+    );
 
     expect(setAccessModeFn).toHaveBeenCalledTimes(1);
     expect(setAccessModeFn).toHaveBeenCalledWith("read only");
@@ -282,9 +285,12 @@ describe("makeKyselyContext", () => {
 
     const ctx = makeKyselyContext(mockRoot);
 
-    await ctx.inTx(async () => {
-      return "done";
-    }, { isolationLevel: "serializable" });
+    await ctx.inTx(
+      async () => {
+        return "done";
+      },
+      { isolationLevel: "serializable" },
+    );
 
     expect(setIsolationLevelFn).toHaveBeenCalledTimes(1);
     expect(setIsolationLevelFn).toHaveBeenCalledWith("serializable");
@@ -311,12 +317,15 @@ describe("makeKyselyContext", () => {
 
     const ctx = makeKyselyContext(mockRoot);
 
-    await ctx.inTx(async () => {
-      return "done";
-    }, {
-      accessMode: "read write",
-      isolationLevel: "read committed"
-    });
+    await ctx.inTx(
+      async () => {
+        return "done";
+      },
+      {
+        accessMode: "read write",
+        isolationLevel: "read committed",
+      },
+    );
 
     expect(setAccessModeFn).toHaveBeenCalledTimes(1);
     expect(setAccessModeFn).toHaveBeenCalledWith("read write");
@@ -377,12 +386,15 @@ describe("makeKyselyContext", () => {
     await ctx.inTx(async () => {
       // Nested transaction with options should not create new transaction
       // and should not call setAccessMode/setIsolationLevel
-      await ctx.inTx(async () => {
-        return "nested";
-      }, {
-        accessMode: "read only",
-        isolationLevel: "serializable"
-      });
+      await ctx.inTx(
+        async () => {
+          return "nested";
+        },
+        {
+          accessMode: "read only",
+          isolationLevel: "serializable",
+        },
+      );
       return "done";
     });
 
