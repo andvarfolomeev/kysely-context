@@ -1,6 +1,6 @@
 {
   "name": "kysely-context",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Context manager for Kysely using AsyncLocalStorage",
   "keywords": [
     "async-local-storage",
@@ -12,7 +12,7 @@
   "author": "Andrey Varfolomeev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andvarfolomeev/kysely-context"
+    "url": "git+https://github.com/andvarfolomeev/kysely-context.git"
   },
   "files": [
     "dist",
